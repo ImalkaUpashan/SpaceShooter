@@ -14,7 +14,7 @@ public class Enemy {
 
     int speed =2;
 
-    Image[] runFrame = new Image[10];
+    Image[] runFrame = new Image[8];
     Image[] attackFrame = new Image[10];
 
     public static final int RUN =0;
