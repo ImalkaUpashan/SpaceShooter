@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class GamePanel extends JPanel implements KeyListener {
     Player player;
@@ -14,6 +17,27 @@ public class GamePanel extends JPanel implements KeyListener {
     ArrayList<Enemy> enemies =new ArrayList<>();
     ArrayList<EnemyBullet> enemyBullets = new ArrayList<>();
     int spawncounter =0;
+    World1 World1;
+    Image background;
+
+    Image tile1;
+    Image tile2;
+    Image tile3;
+    Image tile4;
+    Image tile5;
+    Image tile6;
+    Image tile7;
+    Image tile8;
+    Image tile9;
+    Image tile10;
+    Image tile11;
+    Image tile12;
+    Image tile13;
+    Image tile14;
+    Image tile15;
+    Image tile16;
+
+
 
     public GamePanel(){
 
@@ -22,7 +46,92 @@ public class GamePanel extends JPanel implements KeyListener {
         setFocusable(true);
         setBackground(Color.BLACK);
 
+        try {
+
+            tile1 = ImageIO.read(
+                    new File("assets/world/world1/1.png")
+            );
+
+            tile2 = ImageIO.read(
+                    new File("assets/world/world1/2.png")
+            );
+
+            tile3 = ImageIO.read(
+                    new File("assets/world/world1/3.png")
+            );
+
+            tile4 = ImageIO.read(
+                    new File("assets/world/world1/4.png")
+            );
+
+            tile5 = ImageIO.read(
+                    new File("assets/world/world1/5.png")
+            );
+
+            tile6 = ImageIO.read(
+                    new File("assets/world/world1/6.png")
+            );
+
+            tile7 = ImageIO.read(
+                    new File("assets/world/world1/7.png")
+            );
+
+            tile8 = ImageIO.read(
+                    new File("assets/world/world1/8.png")
+            );
+
+            tile9 = ImageIO.read(
+                    new File("assets/world/world1/9.png")
+            );
+
+            tile10 = ImageIO.read(
+                    new File("assets/world/world1/10.png")
+            );
+
+            tile11 = ImageIO.read(
+                    new File("assets/world/world1/11.png")
+            );
+
+            tile12 = ImageIO.read(
+                    new File("assets/world/world1/12.png")
+            );
+
+            tile13 = ImageIO.read(
+                    new File("assets/world/world1/13.png")
+            );
+
+            tile14 = ImageIO.read(
+                    new File("assets/world/world1/14.png")
+            );
+
+            tile15 = ImageIO.read(
+                    new File("assets/world/world1/15.png")
+            );
+
+            tile16 = ImageIO.read(
+                    new File("assets/world/world1/16.png")
+            );
+
+            background=ImageIO.read(
+                    new File("assets/BG/BG.png")
+            );
+
+            World1 = new World1(
+                    tile1,tile2,tile3,tile4,
+                    tile5,tile6,tile7,tile8,
+                    tile9,tile10,tile11,tile12,
+                    tile13,tile14,tile15,tile16,background
+            );
+
+
+        } catch(Exception e){
+
+            e.printStackTrace();
+
+        }
+
         timer = new Timer(16,e->{
+
 
             if(leftPressed){
                     player.x -=5;
@@ -98,6 +207,7 @@ public class GamePanel extends JPanel implements KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        World1.draw(g);
         player.draw(g);
         for(Bullet bullet : bullets){
             bullet.draw(g);
