@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class World1 {
 
-    int tileSize = 50;
+    public final int tileSize = 50;
 
     Image background;
 
@@ -80,6 +80,45 @@ public class World1 {
         this.background= background;
 
     }
+
+    public boolean isSolidTile(int tile){
+        switch(tile){
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+                return true;
+
+            default:
+                return false;
+
+        }
+    }
+
+    public boolean isSolidAt(int worldX,int worldY){
+
+        int col=worldX/tileSize;
+        int row=worldY/tileSize;
+
+        if(row<0 || row>= map.length)
+            return false;
+        if(col<0 || col>= map[row].length)
+            return false;
+        return isSolidTile(map[row][col]);
+    }
+
 
 
     public void draw(Graphics g){

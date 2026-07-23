@@ -58,15 +58,38 @@ public class Player {
         }
     }
 
-    public void update(boolean leftPressed,boolean rightPressed){
+    public void update(boolean leftPressed,boolean rightPressed,World1 world){
+
+        if(leftPressed){
+            if(!world.isSolidAt(
+                    x-2,y+height/2
+            )){
+                x-=5;
+            }
+            facingRight=false;
+        }
+
+        if(rightPressed){
+            if(!world.isSolidAt(
+                    x+width+2,y+height/2
+            )){
+                x+=5;
+            }
+        facingRight=true;
+        }
+
         velocityY +=gravity;
         y += velocityY;
 
-        if(y>=250){
-            y=250;
-            velocityY =0;
-            onGround =true;
-        }
+       if(world.isSolidAt(
+               x+width/2,y+height)){
+           int tileRow =(y+height)/ world.tileSize;
+           y=tileRow* world.tileSize-height;
+           velocityY=0;
+           onGround=true;
+       }else{
+           onGround=false;
+       }
 
         animationCounter++;
         if(animationCounter>=6){

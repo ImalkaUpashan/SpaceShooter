@@ -17,7 +17,7 @@ public class GamePanel extends JPanel implements KeyListener {
     ArrayList<Enemy> enemies =new ArrayList<>();
     ArrayList<EnemyBullet> enemyBullets = new ArrayList<>();
     int spawncounter =0;
-    World1 World1;
+    World1 World;
     Image background;
 
     Image tile1;
@@ -116,7 +116,7 @@ public class GamePanel extends JPanel implements KeyListener {
                     new File("assets/BG/BG.png")
             );
 
-            World1 = new World1(
+            World = new World1(
                     tile1,tile2,tile3,tile4,
                     tile5,tile6,tile7,tile8,
                     tile9,tile10,tile11,tile12,
@@ -132,26 +132,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
         timer = new Timer(16,e->{
 
-
-            if(leftPressed){
-                    player.x -=5;
-                    facingRight=false;
-                    player.currentState=player.RUN;
-                }
-
-                if(rightPressed){
-                    player.x +=5;
-                    facingRight=true;
-                    player.currentState=player.RUN;
-                }
-
-                if(!leftPressed && !rightPressed && player.onGround){
-                    player.currentState=player.IDLE;
-                }
-
-                if(!player.onGround){
-                    player.currentState=player.JUMP;
-                }
+            player.update(leftPressed,rightPressed,World);
 
                 for(Bullet bullet : bullets){
                     bullet.update();
@@ -167,7 +148,7 @@ public class GamePanel extends JPanel implements KeyListener {
             }
 
                 for(Enemy enemy:enemies){
-                    enemy.update(player,enemyBullets);
+                    enemy.update(player,enemyBullets,World);
                 }
 
                 for(EnemyBullet bullet :enemyBullets){
@@ -196,7 +177,6 @@ public class GamePanel extends JPanel implements KeyListener {
                     }
                 }
 
-                player.update(leftPressed,rightPressed);
                 repaint();
             });
 
@@ -207,7 +187,7 @@ public class GamePanel extends JPanel implements KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        World1.draw(g);
+        World.draw(g);
         player.draw(g);
         for(Bullet bullet : bullets){
             bullet.draw(g);
@@ -244,7 +224,7 @@ public class GamePanel extends JPanel implements KeyListener {
             bullets.add(new Bullet(
                     player.x + player.width/2,
                     player.y + player.height/2,
-                    facingRight
+                    player.facingRight
             ));
         }
 

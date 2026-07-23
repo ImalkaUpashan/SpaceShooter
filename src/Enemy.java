@@ -12,6 +12,10 @@ public class Enemy {
     int height =100;
     boolean facingRight =false;
 
+    int velocityY =0;
+    int gravity = 1;
+    boolean onGround =false;
+
     int speed =2;
 
     Image[] runFrame = new Image[8];
@@ -51,19 +55,44 @@ public class Enemy {
         return new Rectangle(x+30,y+20,20,100);
     }
 
-    public void update(Player player,ArrayList<EnemyBullet> enemyBullets ){
+    public void update(Player player,ArrayList<EnemyBullet> enemyBullets,World1 world ){
+       velocityY +=gravity;
+       y+=velocityY;
+
+       if(world.isSolidAt(
+               x+width/2,
+               y+height
+       )){
+           int tileRow =(y+ height)/world.tileSize;
+           y=tileRow*world.tileSize-height;
+           velocityY=0;
+           onGround=true;
+       }else{
+           onGround=false;
+       }
+
         int distance =Math.abs(player.x-x);
 
         if(distance>50){
             currentState=RUN;
 
             if(player.x<x){
-                x-=speed;
+                if(!world.isSolidAt(
+                        x-speed,
+                        y+height/2
+                )){
+                    x-=speed;
+                }
                 facingRight=true;
             }
 
             if(player.x>x){
-                x+=speed;
+                if(!world.isSolidAt(
+                        x+width+speed,
+                        y+height/2
+                )){
+                    x+=speed;
+                }
                 facingRight=false;
             }
         }else{
